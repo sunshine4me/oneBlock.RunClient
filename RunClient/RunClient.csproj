@@ -132,10 +132,10 @@
     <Content Include="Resources\IEDriverServer.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Run\这里是Run目录.txt">
+    <Content Include="RunResult\这里是Run目录.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Debug\这里是Debug目录.txt">
+    <Content Include="DebugResult\这里是Debug目录.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

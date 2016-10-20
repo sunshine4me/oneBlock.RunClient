@@ -81,10 +81,11 @@ namespace RunClient.mission {
                     }
                     rtc.result = result;
 
-                    saveExcel();
+                  
                 }
             }
-
+            
+            saveExcel($"{dic}/{Path.GetFileNameWithoutExtension(excelFile)}_result.xlsx");
         }
 
 
@@ -139,7 +140,7 @@ namespace RunClient.mission {
 
         }
 
-        private void saveExcel() {
+        private void saveExcel(string excelResultPath) {
 
             foreach (var cs in caseList) {
 
@@ -181,7 +182,9 @@ namespace RunClient.mission {
 
                     //创建一个超链接对象
                     XSSFHyperlink link = new XSSFHyperlink(HyperlinkType.Unknown);
-                    link.Address = $"file:///{rcs.result.resultPath}";
+
+
+                    link.Address = $"file:///{ Path.GetFileName(rcs.result.resultPath) }";
                     p.Hyperlink = link;
 
                     //样式
@@ -199,14 +202,14 @@ namespace RunClient.mission {
 
 
             try {
-
-
-                using (FileStream fileStream = File.Open(excelFile, FileMode.Create, FileAccess.Write)) {
+                using (FileStream fileStream = File.Open(excelResultPath, FileMode.Create, FileAccess.Write)) {
                     xssfworkbook.Write(fileStream);
                 }
+                var logger = LogManager.GetLogger(GetType());
+                logger.Info($"场景执行完成,请查看结果文件:{excelResultPath}");
             } catch (Exception e) {
                 var logger = LogManager.GetLogger(GetType());
-                logger.Warn($"{e.Message}\r\n{e.StackTrace}保存excel失败 path:{excelFile}. 执行继续...");
+                logger.Warn($"{e.Message}\r\n{e.StackTrace}保存excel失败 path:{excelFile}.");
 
             }
 

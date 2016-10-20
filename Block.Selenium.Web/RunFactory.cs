@@ -197,7 +197,7 @@ namespace Block.Selenium.Web {
             log.Debug($"Step数据初始化完成,数量:{runSteps.Count}");
 
 
-            log.Info($"开始执行,结果文件路径:{resultPath}.");
+            log.Debug($"开始执行,结果文件路径:{resultPath}");
 
 
 
@@ -207,7 +207,6 @@ namespace Block.Selenium.Web {
                 try {
                     log.Debug($"Step.{i}[{step}:{step.__describe}]: 开始执行...");
                     step.Excite();
-                    saveResult(_case);
                     log.Info($"Step.{i}[{step}:{step.__describe}]: 执行完成,状态:{step.oneStep.result.statusCode}!");
                     if (step.oneStep.result.statusCode != StepResultCode.sucess) break;
                 } catch (Exception e) {
@@ -220,7 +219,8 @@ namespace Block.Selenium.Web {
                     break;//结束执行
                 }
             }
-            log.Info($"执行完成,结果文件路径:{resultPath}.");
+            saveResult(_case);
+            log.Debug($"案例执行完成,结果文件路径:{resultPath}");
             log.Debug("开始释放相关资源.");
             this.killThemAll();
 

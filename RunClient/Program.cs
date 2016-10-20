@@ -15,17 +15,20 @@ namespace RunClient {
 
             var logger = LogManager.GetLogger(typeof(Program));
             //测试代码
-            //string[] arrayA = { @"C:\Users\ASUS\Desktop\数据场景.xlsx", @"http://localhost:5000" };
-            //args = arrayA;
+            string[] arrayA = { @"C:\Users\ASUS\Desktop\数据场景.xlsx", @"http://localhost:5000" };
+            args = arrayA;
 
 
 
 
             if (args.Length > 1) {
-                dic = $"{Environment.CurrentDirectory}\\Run\\{DateTime.Now.ToString("yyyy-MM-dd")}";
+                dic = $"{Environment.CurrentDirectory}\\RunResult\\{DateTime.Now.ToString("yyyy-MM-dd")}";
+                var excel = Path.GetFileNameWithoutExtension(args[0]);
+                dic = $"{dic}\\{excel}-{DateTime.Now.ToString("hhmmss")}";
                 if (!Directory.Exists(dic)) {
                     Directory.CreateDirectory(dic);
                 }
+
                 logger.Info("run模式启动");
                 Uri uri = new Uri(args[1]);
 
@@ -37,7 +40,7 @@ namespace RunClient {
                 logger.Debug($"run模式执行完成!");
             } else {
                 blockServer bs = new blockServer();
-                dic = $"{Environment.CurrentDirectory}\\Debug";
+                dic = $"{Environment.CurrentDirectory}\\DebugResult";
                 bs.debugEvent += startRun;
                 logger.Info("Debug模式启动");
                 bs.StartListener(8500);
@@ -60,7 +63,6 @@ namespace RunClient {
             return runFactory.startRun(tc, resultPath);
         }
         private static void missionRun(string excelFile, Uri url, string dic) {
-
             mission.mission msr = new mission.mission();
             msr.excelFile = excelFile;
             msr.url = url;
